@@ -14,15 +14,31 @@ export function createGameConfig(
   return {
     type: Phaser.AUTO,
     parent,
+
+    // ขนาดพื้นที่เกมหลัก
     width: GAME_WIDTH,
     height: GAME_HEIGHT,
+
     backgroundColor: "#05040a",
+
+    // ตั้งค่าภาพ
     pixelArt: false,
     antialias: true,
+
+    // รองรับหน้าจอคอมพิวเตอร์และโทรศัพท์
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
+      width: GAME_WIDTH,
+      height: GAME_HEIGHT,
     },
+
+    // รองรับการสัมผัสหน้าจอ
+    input: {
+      activePointers: 3,
+    },
+
+    // Scenes ของเกม
     scene: [
       BootScene,
       TitleScene,

@@ -112,7 +112,6 @@ export class ComingSoonScene extends Phaser.Scene {
       accent: data.characterAccent ?? 0xf4b8ff,
     };
 
-    // เลือกด่านตามข้อมูลที่ส่งมาจากหน้าเลือกด่าน
     const requestedLevel = Math.floor(data.levelId ?? 1);
     const unlockedLevel = getUnlockedLevel();
 
@@ -125,7 +124,6 @@ export class ComingSoonScene extends Phaser.Scene {
       LEVELS.find((level) => level.id === this.levelId) ??
       LEVELS[0]!;
 
-    // ใช้ตำแหน่งของแต่ละด่านจาก levelData.ts
     this.startCell = { ...this.currentLevel.start };
     this.switchCell = { ...this.currentLevel.switch };
     this.doorCell = { ...this.currentLevel.door };
@@ -156,7 +154,7 @@ export class ComingSoonScene extends Phaser.Scene {
     this.heartGraphics = this.add.graphics().setDepth(5);
 
     this.add
-      .text(640, 24, "AFTERIMAGE", {
+      .text(640, 24, "VESPERTRACE", {
         fontFamily: '"Press Start 2P", monospace',
         fontSize: "25px",
         color: "#e8d9f8",
@@ -175,7 +173,6 @@ export class ComingSoonScene extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-    // ชื่อด่านเปลี่ยนตามด่านที่กำลังเล่น
     this.add
       .text(
         640,
@@ -192,7 +189,6 @@ export class ComingSoonScene extends Phaser.Scene {
       )
       .setOrigin(0.5);
 
-    // เนื้อเรื่องของด่าน
     this.add
       .text(640, 105, this.currentLevel.subtitle, {
         fontFamily: '"Silkscreen", monospace',
@@ -260,18 +256,19 @@ export class ComingSoonScene extends Phaser.Scene {
       };
     }
 
+    this.createTouchControls();
     this.drawBoard();
   }
 
   update(): void {
-    if (!this.cursors || !this.keys) return;
+    if (this.won || this.gameOver || this.moving) return;
 
-    if (Phaser.Input.Keyboard.JustDown(this.keys.R)) {
+    if (this.keys && Phaser.Input.Keyboard.JustDown(this.keys.R)) {
       this.restartCurrentLevel();
       return;
     }
 
-    if (this.won || this.gameOver || this.moving) return;
+    if (!this.cursors || !this.keys) return;
 
     let dx = 0;
     let dy = 0;
@@ -303,14 +300,78 @@ export class ComingSoonScene extends Phaser.Scene {
     }
   }
 
+  private createTouchControls(): void {
+    // ปุ่มควบคุมอยู่ด้านขวาของกระดาน
+    const centerX = 1150;
+    const centerY = 495;
+
+    const addDirectionButton = (
+      x: number,
+      y: number,
+      label: string,
+      dx: number,
+      dy: number,
+    ): void => {
+      const button = this.add
+        .text(x, y, label, {
+          fontFamily: '"Press Start 2P", monospace',
+          fontSize: "18px",
+          color: "#ffffff",
+          backgroundColor: "#59416d",
+          padding: { x: 16, y: 15 },
+          align: "center",
+        })
+        .setOrigin(0.5)
+        .setDepth(20)
+        .setScrollFactor(0)
+        .setInteractive();
+
+      button.on("pointerdown", () => {
+        if (this.won || this.gameOver || this.moving) return;
+        this.tryMove(dx, dy);
+      });
+
+      button.on("pointerover", () => {
+        button.setBackgroundColor("#8063a0");
+      });
+
+      button.on("pointerout", () => {
+        button.setBackgroundColor("#59416d");
+      });
+    };
+
+    addDirectionButton(centerX, centerY - 62, "▲", 0, -1);
+    addDirectionButton(centerX - 62, centerY, "◀", -1, 0);
+    addDirectionButton(centerX, centerY, "▼", 0, 1);
+    addDirectionButton(centerX + 62, centerY, "▶", 1, 0);
+
+    const restart = this.add
+      .text(1150, 625, "[ RESTART ]", {
+        fontFamily: '"Silkscreen", monospace',
+        fontSize: "12px",
+        color: "#ffffff",
+        backgroundColor: "#30304c",
+        padding: { x: 12, y: 10 },
+      })
+      .setOrigin(0.5)
+      .setDepth(20)
+      .setScrollFactor(0)
+      .setInteractive();
+
+    restart.on("pointerdown", () => {
+      this.restartCurrentLevel();
+    });
+  }
+
   private createWalls(): void {
-    // สร้างกำแพงตามข้อมูลของด่านปัจจุบัน
     for (const wall of this.currentLevel.walls) {
       this.walls.add(this.cellKey(wall.col, wall.row));
     }
   }
 
   private tryMove(dx: number, dy: number): void {
+    if (this.won || this.gameOver || this.moving) return;
+
     const next: Cell = {
       col: this.player.col + dx,
       row: this.player.row + dy,
@@ -342,11 +403,9 @@ export class ComingSoonScene extends Phaser.Scene {
 
     const previous: Cell = { ...this.player };
 
-    // ทุกครั้งที่เดิน ตำแหน่งเดิมจะกลายเป็นเงา
     this.shadows.push(previous);
     this.player = next;
 
-    // เมื่อมีเงาทับสวิตช์ ประตูจะเปิด
     if (
       !this.doorOpen &&
       this.shadows.some((shadow) =>
@@ -857,7 +916,6 @@ export class ComingSoonScene extends Phaser.Scene {
   private showWin(): void {
     this.won = true;
 
-    // ปลดล็อกด่านถัดไปเมื่อชนะ
     unlockLevel(this.levelId + 1);
 
     const hasNextLevel = LEVELS.some(
