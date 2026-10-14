@@ -67,7 +67,7 @@ export class TitleScene extends Phaser.Scene {
 
     // Game title
     this.add
-      .text(width / 2, 62, "AFTERIMAGE", {
+      .text(width / 2, 62, "VESPERTRACE", {
         fontFamily: '"Press Start 2P", monospace',
         fontSize: "36px",
         color: "#f4d5ff",
