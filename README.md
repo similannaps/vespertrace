@@ -2,72 +2,86 @@
 
 **VESPERTRACE — A Shadow-Based 2D Puzzle Game**
 
-เครื่องมือที่ใช้: **Phaser 3 + TypeScript + Vite**
-
 *Every step leaves something behind.*
+
+🌐 **Play Online:** [Play VESPERTRACE](https://celadon-baklava-af0762.netlify.app/)
+
+📦 **Source Code:** [GitHub Repository](https://github.com/similannaps/vespertrace)
+
+---
 
 ทุกก้าวทิ้งร่องรอยไว้บนกระดาน ผู้เล่นต้องใช้เงาและตำแหน่งที่ผ่านมาเพื่อแก้ปริศนาและผ่านด่าน
 
-## สถานะของโปรเจกต์
+## About the Game
 
-เกมมีระบบหลักที่พัฒนาแล้ว ได้แก่
+VESPERTRACE เป็นเกมปริศนา 2D ที่ผู้เล่นต้องใช้เงาและตำแหน่งที่เคยเดินผ่านมาเพื่อวางแผนการเคลื่อนที่ แก้ปริศนา และหาทางผ่านแต่ละด่าน
 
-- หน้าเริ่มเกม (Title Screen)
-- ระบบเลือกตัวละคร
-- ระบบเลือกด่านและความคืบหน้าการปลดล็อกด่าน
-- ด่านปริศนาที่เล่นได้ 3 ด่าน
-- ระบบเดินบนกริดและกลไกเงา
-- ระบบสวิตช์ ประตู และทางออก
+## Game Features
 
-รายละเอียดกลไกอาจแตกต่างกันตามการพัฒนาแต่ละเวอร์ชัน
+- Title Screen
+- Character Selection
+- Level Selection and Unlock Progression
+- 3 Playable Puzzle Levels
+- Grid-Based Movement and Shadow Mechanics
+- Switches, Doors, and Exits
 
-## เทคโนโลยี
+รายละเอียดกลไกอาจแตกต่างกันตามเวอร์ชันของโปรเจกต์
+
+## Technologies
 
 - Phaser 3
 - TypeScript
 - Vite
 
-## วิธีติดตั้งและเปิดเกม
+## Play the Game
+
+เล่นเกมผ่านเว็บไซต์ได้ที่:
+
+**https://celadon-baklava-af0762.netlify.app/**
+
+ไม่จำเป็นต้องติดตั้งโปรเจกต์ลงในเครื่องเพื่อเข้าเล่นผ่านเว็บไซต์
+
+## Run Locally
 
 ต้องติดตั้ง Node.js ก่อน
 
-1. เปิด Terminal ใน VS Code
+1. Clone โปรเจกต์จาก GitHub
+
+   ```bash
+   git clone https://github.com/similannaps/vespertrace.git
+   ```
+
 2. เข้าไปยังโฟลเดอร์โปรเจกต์
-3. ติดตั้ง dependencies
 
-```bash
-npm install
-```
+   ```bash
+   cd vespertrace
+   ```
 
-4. เปิดเซิร์ฟเวอร์สำหรับพัฒนา
+3. ติดตั้ง Dependencies
 
-```bash
-npm run dev
-```
+   ```bash
+   npm install
+   ```
+
+4. เปิด Development Server
+
+   ```bash
+   npm run dev
+   ```
 
 5. เปิด URL ที่แสดงใน Terminal โดยปกติคือ `http://localhost:5173`
 
-## คำสั่งที่ใช้บ่อย
+## Available Scripts
 
-```bash
-npm run dev
-```
+| Command | Description |
+|---|---|
+| `npm run dev` | เปิดเกมในโหมดพัฒนา |
+| `npm run build` | ตรวจสอบ TypeScript และ Build สำหรับ Production |
+| `npm run preview` | Preview ผลลัพธ์หลัง Build |
 
-เปิดเกมในโหมดพัฒนา
+ไฟล์สำหรับ Production จะถูกสร้างไว้ในโฟลเดอร์ `dist/`
 
-```bash
-npm run build
-```
-
-ตรวจสอบ TypeScript และสร้างไฟล์สำหรับ Production ไว้ใน `dist/`
-
-```bash
-npm run preview
-```
-
-เปิดดูผลลัพธ์หลัง Build
-
-## โครงสร้างโปรเจกต์
+## Project Structure
 
 ```text
 vespertrace/
@@ -77,18 +91,21 @@ vespertrace/
 ├── src/
 │   ├── main.ts
 │   └── game/
-└── package.json
+├── package.json
+└── README.md
 ```
 
-โครงสร้างด้านบนเป็นภาพรวม ส่วนไฟล์ย่อยภายใน `src/game/` อาจแตกต่างกันตามเวอร์ชันของโปรเจกต์
+โครงสร้างด้านบนเป็นภาพรวม ไฟล์ย่อยภายใน `src/game/` อาจแตกต่างกันตามเวอร์ชันของโปรเจกต์
 
 ## Originality
 
-อ่านรายละเอียดแนวคิดเกมและการพิจารณาชื่อได้ที่ [`docs/ORIGINALITY.md`](docs/ORIGINALITY.md)
+อ่านรายละเอียดแนวคิดเกมและการพิจารณาชื่อได้ที่ [docs/ORIGINALITY.md](https://github.com/similannaps/vespertrace/blob/main/docs/ORIGINALITY.md)
 
 ## Project Information
 
-**Name:** VESPERTRACE  
-**Genre:** 2D Puzzle Game  
-**Tagline:** Every step leaves something behind.  
-**Purpose:** Personal portfolio project
+- **Name:** VESPERTRACE
+- **Genre:** 2D Puzzle Game
+- **Tagline:** Every step leaves something behind.
+- **Technology:** Phaser 3, TypeScript, Vite
+- **Deployment:** Netlify
+- **Purpose:** Personal Portfolio Project
